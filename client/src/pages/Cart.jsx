@@ -5,6 +5,7 @@ import Footer from './../components/Footer';
 import styled from 'styled-components';
 import {Add,Remove} from "@material-ui/icons";
 import { mobile } from './../responisve';
+import { useSelector } from 'react-redux';
 
 const Container=styled.div``;
 
@@ -157,6 +158,7 @@ const SummaryButton=styled.button`
 
 
 const Cart = () => {
+    const cart=useSelector(state=>state.cart);
   return (
     <Container>
         <Announcement/>
@@ -173,51 +175,36 @@ const Cart = () => {
             </Top>
             <Bottom>
                 <Info>
-                    <Product>
+                    {cart.products.map(product=>(
+
+                        <Product>
                         <ProductDetail>
-                            <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A"/>
+                            <Image src={product.img}/>
                             <Details>
-                                <ProductName><b>Ürün: </b>JESSIE THUNDER SHOES</ProductName>
-                                <ProductId><b>ID: </b>9898732173</ProductId>
-                                <ProductColor color="black"/>
-                                <ProductSize><b>Beden: </b>37.5</ProductSize>
+                                <ProductName><b>Ürün: </b>{product.title}</ProductName>
+                                <ProductId><b>ID: </b>{product._id}</ProductId>
+                                <ProductColor color={product.color}/>
+                                <ProductSize><b>Beden: </b>{product.size}</ProductSize>
                             </Details>
                         </ProductDetail>
                         <PriceDetail>
                             <ProductAmountContainer>
                                 <Remove/>
-                                <ProductAmount>2</ProductAmount>
+                                <ProductAmount>{product.quantity}</ProductAmount>
                                 <Add/>
                             </ProductAmountContainer>
-                            <ProductPrice>500 ₺</ProductPrice>
+                            <ProductPrice>{product.price*product.quantity} ₺</ProductPrice>
                         </PriceDetail>
                     </Product>
+                    ))}
                     <Hr/>
-                    <Product>
-                        <ProductDetail>
-                            <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A"/>
-                            <Details>
-                                <ProductName><b>Product: </b>JESSIE THUNDER SHOES</ProductName>
-                                <ProductId><b>ID: </b>9898732173</ProductId>
-                                <ProductColor color="black"/>
-                                <ProductSize><b>Size: </b>37.5</ProductSize>
-                            </Details>
-                        </ProductDetail>
-                        <PriceDetail>
-                            <ProductAmountContainer>
-                                <Remove/>
-                                <ProductAmount>2</ProductAmount>
-                                <Add/>
-                            </ProductAmountContainer>
-                            <ProductPrice>500 ₺</ProductPrice>
-                        </PriceDetail>
-                    </Product>
-                </Info>
-                <Summary>
+                    
+                    </Info>
+                    <Summary>
                     <SummaryTitle>SİPARİŞ ÖZETİ</SummaryTitle>
                     <SummaryItem>
                         <SummaryItemText>Sipariş Tutarı</SummaryItemText>
-                        <SummaryItemPrice>1000 ₺</SummaryItemPrice>
+                        <SummaryItemPrice>{cart.total} ₺</SummaryItemPrice>
                     </SummaryItem>
                     <SummaryItem>
                         <SummaryItemText>Kargo Ücreti</SummaryItemText>
@@ -229,7 +216,7 @@ const Cart = () => {
                     </SummaryItem>
                     <SummaryItem  type="total">
                         <SummaryItemText>Sepet Toplamı</SummaryItemText>
-                        <SummaryItemPrice>1000 ₺</SummaryItemPrice>
+                        <SummaryItemPrice>{cart.total} ₺</SummaryItemPrice>
                     </SummaryItem>
                     <SummaryButton>Siparişi Tamamla</SummaryButton>
                 </Summary>

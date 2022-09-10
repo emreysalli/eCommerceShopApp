@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import  styled  from 'styled-components';
 import Navbar from './../components/Navbar';
 import Announcement from './../components/Announcement';
@@ -6,7 +6,7 @@ import Products from './../components/Products';
 import Newsletter from './../components/Newsletter';
 import Footer from './../components/Footer';
 import { mobile } from './../responisve';
-
+import { useLocation  } from "react-router-dom";
 const Container=styled.div``
 const Title=styled.h1`
     margin: 20px;
@@ -35,25 +35,37 @@ const Select=styled.select`
 const Option=styled.option``
 
 const ProductList = () => {
+    const location=useLocation();
+    const cat=location.pathname.split("/")[2];
+    const [filters,setFilters]=useState({});
+    const [sort,setSort]=useState("newest");
+
+    const handleFilters=(e)=>{
+        const value=e.target.value;
+        setFilters({
+            ...filters,
+            [e.target.name]:value
+        });
+    };
   return (
     <Container>
         <Announcement/>
         <Navbar/>
-        <Title>Elbiseler</Title>
+        <Title>{cat}</Title>
         <FilterContainer>
             <Filter>
                 <FilterText>Filtreleme:</FilterText>
-                <Select>
-                    <Option disabled selected>Renk</Option>
-                    <Option>Beyaz</Option>
-                    <Option>Siyah</Option>
-                    <Option>Kırmızı</Option>
-                    <Option>Mavi</Option>
-                    <Option>Sarı</Option>
-                    <Option>Yeşil</Option>
+                <Select name="color" onChange={handleFilters}>
+                    <Option disabled >Renk</Option>
+                    <Option value="white">Beyaz</Option>
+                    <Option value="black">Siyah</Option>
+                    <Option value="red">Kırmızı</Option>
+                    <Option value="blue">Mavi</Option>
+                    <Option value="yellow">Sarı</Option>
+                    <Option value="green">Yeşil</Option>
                 </Select>
-                <Select>
-                    <Option disabled selected>Beden</Option>
+                <Select name="size" onChange={handleFilters}>
+                    <Option disabled>Beden</Option>
                     <Option>XS</Option>
                     <Option>S</Option>
                     <Option>M</Option>
@@ -64,14 +76,14 @@ const ProductList = () => {
             </Filter>
             <Filter>
                 <FilterText>Sıralama:</FilterText>
-                <Select>
-                    <Option selected>En Yeniler</Option>
-                    <Option>Fiyata Göre (Artan)</Option>
-                    <Option>Fiyata Göre (Azalan)</Option>
+                <Select onChange={e=>setSort(e.target.value)}>
+                    <Option value="newest">En Yeniler</Option>
+                    <Option value="asc">Fiyata Göre (Artan)</Option>
+                    <Option value="desc">Fiyata Göre (Azalan)</Option>
                 </Select>
             </Filter>
         </FilterContainer>
-        <Products/>
+        <Products cat={cat} filters={filters} sort={sort}/>
         <Newsletter/>
         <Footer/>
     </Container>

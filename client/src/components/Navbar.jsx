@@ -4,6 +4,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import Badge from '@mui/material/Badge';
 import ShoppingCartOutlined from '@mui/icons-material/ShoppingCartOutlined';
 import { mobile } from './../responisve';
+import {useSelector} from "react-redux";
+import { Link } from 'react-router-dom';
+
 const Container = styled.div`
   height: 60px;
   ${mobile({height:"50px"})};
@@ -63,6 +66,7 @@ const MenuItem=styled.div`
   ${mobile({fontSize:"12px",marginLeft:"10px"})};
 `
 const Navbar = () => {
+  const quantity=useSelector(state=>state.cart.quantity);
   return <Container>
     <Wrapper>
       <Left>
@@ -78,11 +82,13 @@ const Navbar = () => {
       <Right>
         <MenuItem>Üye Ol</MenuItem>
         <MenuItem>Giriş Yap</MenuItem>
-        <MenuItem>
-          <Badge badgeContent={4} color="primary">
-            <ShoppingCartOutlined />
-          </Badge>
-        </MenuItem>
+        <Link to="/cart">
+          <MenuItem>
+            <Badge badgeContent={quantity} color="primary">
+              <ShoppingCartOutlined />
+            </Badge>
+          </MenuItem>
+        </Link>
       </Right>
     </Wrapper>
   </Container>
