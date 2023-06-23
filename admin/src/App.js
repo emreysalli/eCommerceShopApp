@@ -11,9 +11,17 @@ import NewProduct from "./pages/newProduct/NewProduct";
 import Login from "./pages/login/Login";
 import PageLayout from "./components/pageLayout/PageLayout";
 function App() {
-  const admin = JSON.parse(
-    JSON.parse(localStorage.getItem("persist:root")).user
-  ).currentUser.isAdmin;
+  const admin = () => {
+    if (
+      JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user)
+        .currentUser.isAdmin
+    ) {
+      return JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user)
+        .currentUser.isAdmin;
+    } else {
+      return false;
+    }
+  };
   return (
     <Router>
       <Fragment>

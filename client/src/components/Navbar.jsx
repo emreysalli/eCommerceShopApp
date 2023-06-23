@@ -64,8 +64,14 @@ const MenuItem = styled.div`
   margin-left: 25px;
   ${mobile({ fontSize: "12px", marginLeft: "10px" })};
 `;
+
+const MenuItemLinkStyle = {
+  textDecoration: "none",
+  color: "#000",
+};
 const Navbar = () => {
   const quantity = useSelector((state) => state.cart.quantity);
+  const user = useSelector((state) => state.user.currentUser);
   return (
     <Container>
       <Wrapper>
@@ -77,11 +83,23 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>BE&EM</Logo>
+          <Link to="/" style={MenuItemLinkStyle}>
+            <Logo>BE&EM</Logo>
+          </Link>
         </Center>
         <Right>
-          <MenuItem>Üye Ol</MenuItem>
-          <MenuItem>Giriş Yap</MenuItem>
+          {!user ? (
+            <>
+              <Link to="/register" style={MenuItemLinkStyle}>
+                <MenuItem>Üye Ol</MenuItem>
+              </Link>
+              <Link to="/login" style={MenuItemLinkStyle}>
+                <MenuItem>Giriş Yap</MenuItem>
+              </Link>
+            </>
+          ) : (
+            <></>
+          )}
           <Link to="/cart">
             <MenuItem>
               <Badge badgeContent={quantity} color="primary">

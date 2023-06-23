@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./widgetSm.css";
-import { Visibility } from "@material-ui/icons";
+import { Visibility } from "@mui/icons-material";
 import { userRequest } from "../../requestMethods";
 
 const WidgetSm = () => {
